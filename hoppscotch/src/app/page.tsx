@@ -1,13 +1,12 @@
+import Sidebar from "./sidebar/page";
 import Header from "./header/page";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main>
-
-
-      </main>
+      <Sidebar />
+      <main></main>
     </>
   );
 }

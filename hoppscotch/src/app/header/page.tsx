@@ -57,10 +57,10 @@ const Header: React.FC = () => {
 
       {/* Right Section - Save My Work Space Button and Login */}
       <div className="col-span-1 flex items-center justify-end space-x-1.5">
-        <button className="bg-green-100 text-green-500 flex items-center space-x-1 py-1 px-2 rounded-sm shadow-md hover:bg-green-200 transition">
+        <button className="bg-green-100 text-green-600 flex items-center space-x-1 py-1 px-2 rounded-sm shadow-md hover:bg-green-200 transition">
           {/* Cloud Icon */}
           <Cloud className="w-3.5 h-3.5" />
-          <span className="text-[0.65rem] whitespace-nowrap">Save My Work Space</span>
+          <span className="text-[0.75rem] whitespace-nowrap">Save My Work Space</span>
         </button>
         <button className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600 transition whitespace-nowrap text-xs">
           Login
