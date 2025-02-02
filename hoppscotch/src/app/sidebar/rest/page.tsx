@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
 
 const TabSystem = () => {
   const [tabs, setTabs] = useState<{ id: number; title: string }[]>([
@@ -9,8 +10,10 @@ const TabSystem = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>("GET");
   const [inputText, setInputText] = useState<string>("");
   const [selectedSaveOption, setSelectedSaveOption] = useState<string>("Local");
+  const [sendOption, setSendOption] = useState<string>("Send");
+  const [showSendDropdown, setShowSendDropdown] = useState(false);
+  const [showSaveDropdown, setShowSaveDropdown] = useState(false);
 
-  // Add a new tab dynamically
   const addTab = () => {
     const newTab = {
       id: tabs.length + 1,
@@ -20,47 +23,35 @@ const TabSystem = () => {
     setActiveTab(newTab.id);
   };
 
-  // Delete a tab
   const deleteTab = (id: number) => {
     const updatedTabs = tabs.filter((tab) => tab.id !== id);
     setTabs(updatedTabs);
-
     if (activeTab === id && updatedTabs.length > 0) {
       setActiveTab(updatedTabs[0].id);
     }
   };
 
-  // Handle HTTP method change
-  const handleMethodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedMethod(event.target.value);
-  };
-
-  // Handle text input change
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(event.target.value);
-  };
-
-  // Handle save option change
-  const handleSaveOptionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedSaveOption(event.target.value);
-  };
-
-  // Handle send button click
-  const handleSend = () => {
-    console.log("Selected Method:", selectedMethod);
-    console.log("Input Text:", inputText);
-  };
-
-  // Handle save button click
-  const handleSave = () => {
-    console.log("Save Option:", selectedSaveOption);
+  const handleSendAction = () => {
+    switch (sendOption) {
+      case "Send":
+        console.log("Sending request with:", selectedMethod, inputText);
+        break;
+      case "Import":
+        console.log("Importing data...");
+        break;
+      case "Show":
+        console.log("Showing request history...");
+        break;
+      case "Clear":
+        console.log("Clearing request history...");
+        break;
+      default:
+        console.log("Invalid action");
+    }
   };
 
   return (
     <div className="ml-20 -mt-72 mr-96">
-      {/* Tab Section */}
       <div className="bg-red-100 p-4 rounded-lg shadow-md">
         <div className="flex space-x-2">
           {tabs.map((tab) => (
@@ -85,7 +76,6 @@ const TabSystem = () => {
               </button>
             </div>
           ))}
-          {/* Add New Tab Button */}
           <button
             onClick={addTab}
             className="ml-2 mr-10 px-4 py-2 text-black hover:text-gray-700"
@@ -95,13 +85,11 @@ const TabSystem = () => {
         </div>
       </div>
 
-      {/* Dropdown + Input + Send + Save Button */}
-      <div className="flex items-center space-x-4 pl-4 pr-4 py-2 mt-2 w-fit rounded-lg ml-0 mr-auto">
-        {/* HTTP Method Dropdown */}
+      <div className="pl-4 pr-4 py-2 mt-1 w-fit ml-0 mr-auto flex space-x-2 items-center">
         <select
           id="http-method"
           value={selectedMethod}
-          onChange={handleMethodChange}
+          onChange={(e) => setSelectedMethod(e.target.value)}
           className="border rounded p-2 bg-white shadow-sm"
         >
           <option value="GET">GET</option>
@@ -112,41 +100,74 @@ const TabSystem = () => {
           <option value="TRACE">TRACE</option>
         </select>
 
-        {/* Input Field */}
         <input
           type="text"
           value={inputText}
-          onChange={handleInputChange}
-          placeholder="Enter request URL"
-          className="border rounded p-2 w-72 bg-white shadow-sm"
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder="Enter a URL or paste a cURL command"
+          className="p-1 w-96 bg-white shadow-sm border rounded"
         />
 
-        {/* Send Button */}
-        <button
-          onClick={handleSend}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
-        >
-          Send
-        </button>
-
-        {/* Save Button with Dropdown */}
-        <div className="relative">
-          <select
-            value={selectedSaveOption}
-            onChange={handleSaveOptionChange}
-            className="border rounded p-2 bg-white shadow-sm"
-          >
-            <option value="Local">Save Locally</option>
-            <option value="Cloud">Save to Cloud</option>
-            <option value="Database">Save to Database</option>
-          </select>
-
+        <div className="relative flex items-center">
           <button
-            onClick={handleSave}
-            className="ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+            onClick={handleSendAction}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+          >
+            Send
+          </button>
+          <button
+            onClick={() => setShowSendDropdown(!showSendDropdown)}
+            className="ml-1 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+          >
+            <FiChevronDown />
+          </button>
+          {showSendDropdown && (
+            <div className="absolute top-10 bg-white border rounded shadow-md">
+              {["Import", "Show", "Clear"].map((option) => (
+                <div
+                  key={option}
+                  onClick={() => {
+                    setSendOption(option);
+                    setShowSendDropdown(false);
+                  }}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="relative flex items-center">
+          <button
+            onClick={() => console.log("Save Option:", selectedSaveOption)}
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
           >
             Save
           </button>
+          <button
+            onClick={() => setShowSaveDropdown(!showSaveDropdown)}
+            className="ml-1 p-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+          >
+            <FiChevronDown />
+          </button>
+          {showSaveDropdown && (
+            <div className="absolute top-10 bg-white border rounded shadow-md">
+              {["Local", "Cloud", "Database"].map((option) => (
+                <div
+                  key={option}
+                  onClick={() => {
+                    setSelectedSaveOption(option);
+                    setShowSaveDropdown(false);
+                  }}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
