@@ -28,7 +28,7 @@ const Sidebar = () => {
       {/* Sidebar content */}
       <div
         className={`flex flex-col space-y-6 w-full items-center transition-all duration-300 ${
-          isSidebarCollapsed ? "w-30" : "w-20"
+          isSidebarCollapsed ? "w-" : "w-20"
         }`} // Adjust width based on collapse state
       >
         {/* REST Link */}
