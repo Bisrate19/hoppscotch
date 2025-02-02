@@ -1,14 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import { Globe, Code, Radio, Settings, ChevronDown, ChevronUp } from "lucide-react"; // Import icons
+import { Globe, Code, Radio, Settings, ChevronDown, ChevronUp, Shield } from "lucide-react"; // Import icons
 import Link from "next/link"; // Import Link from next/link
 
 const Sidebar = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // State to control sidebar visibility
+  const [isShieldTextVisible, setIsShieldTextVisible] = useState(false); // State to control shield text visibility
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setIsSidebarCollapsed((prevState) => !prevState);
+  };
+
+  // Toggle shield text visibility
+  const toggleShieldText = () => {
+    setIsShieldTextVisible((prevState) => !prevState);
   };
 
   return (
@@ -16,7 +22,8 @@ const Sidebar = () => {
       {/* Button to toggle sidebar collapse */}
       <button
         onClick={toggleSidebar} // Call toggle function on button click
-        className="fixed bottom-0 left-1 bg-blue-500 text-white p-1  hover:bg-blue-600 transition z-20"
+        className="fixed bottom-0 left-1 bg-white text-black p-1 hover:bg-blue-600 transition z-20"
+          
       >
         {isSidebarCollapsed ? (
           <ChevronDown className="w-5 h-5" /> // Show ChevronDown icon when collapsed
@@ -25,10 +32,18 @@ const Sidebar = () => {
         )}
       </button>
 
+      {/* New shield button */}
+      <button
+        onClick={toggleShieldText} // Call function to toggle shield text visibility
+        className="fixed bottom-0 ml-8 left-1 bg-white- text-black p-1 hover:bg-green-600 transition z-20"
+      >
+        <Shield className="w-5 h-5" />
+      </button>
+
       {/* Sidebar content */}
       <div
         className={`flex flex-col space-y-6 w-full items-center transition-all duration-300 ${
-          isSidebarCollapsed ? "w-" : "w-20"
+          isSidebarCollapsed ? "w-30" : "w-20"
         }`} // Adjust width based on collapse state
       >
         {/* REST Link */}
@@ -67,6 +82,54 @@ const Sidebar = () => {
           {!isSidebarCollapsed && <span className="text-xs">Settings</span>}
         </Link>
       </div>
+
+      {/* Pop-up text for the shield button */}
+      {isShieldTextVisible && (
+        <div className="fixed bottom-0 left-2 bg-slate-50 text-black p-2 shadow-md rounded-md w-auto h-52 text-xs">
+<b>Interceptor</b> <br/>
+Middleware between application abd APIs 
+
+          <div className="space-y-4">
+  <label className="block">
+    <input
+      type="radio"
+      name="option"
+      value="none"
+      className="mr-2"
+    />
+    None
+  </label>
+  <label className="block">
+    <input
+      type="radio"
+      name="option"
+      value="proxy"
+      className="mr-2"
+    />
+    Proxy
+  </label>
+  <label className="block">
+    <input
+      type="radio"
+      name="option"
+      value="browser_extension"
+      className="mr-2"
+    />
+    Browser extension: Not Reported
+  </label>
+  <label className="block">
+    <input
+      type="radio"
+      name="option"
+      value="agent"
+      className="mr-2"
+    />
+    Agent
+  </label>
+</div>
+
+        </div>
+      )}
     </div>
   );
 };
