@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <Header />
       <Sidebar />
-      {/* <Rest /> */}
+      <Rest /> 
       <Footer />
       <main></main>
     </>
