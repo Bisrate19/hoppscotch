@@ -117,7 +117,7 @@ const TabSystem = () => {
           </button>
           <button
             onClick={() => setShowSendDropdown(!showSendDropdown)}
-            className="ml-1 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+            className="-ml-1 h-10 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
           >
             <FiChevronDown />
           </button>
@@ -148,7 +148,7 @@ const TabSystem = () => {
           </button>
           <button
             onClick={() => setShowSaveDropdown(!showSaveDropdown)}
-            className="ml-1 p-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+            className="-ml-1 p-2 h-10 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
           >
             <FiChevronDown />
           </button>
