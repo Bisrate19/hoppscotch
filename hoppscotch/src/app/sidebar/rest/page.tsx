@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiChevronDown } from "react-icons/fi";
 
 const TabSystem = () => {
@@ -9,15 +9,29 @@ const TabSystem = () => {
   const [activeTab, setActiveTab] = useState<number>(1);
   const [selectedMethod, setSelectedMethod] = useState<string>("GET");
   const [inputText, setInputText] = useState<string>("");
-  const [selectedSaveOption, setSelectedSaveOption] = useState<string>("Local");
+  const [selectedSaveOption, setSelectedSaveOption] = useState<string>("Save");  // Updated default value
   const [sendOption, setSendOption] = useState<string>("Send");
   const [showSendDropdown, setShowSendDropdown] = useState(false);
   const [showSaveDropdown, setShowSaveDropdown] = useState(false);
+  const [selectedSection, setSelectedSection] = useState<string>("Parameters");
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".dropdown")) {
+        setShowSendDropdown(false);
+        setShowSaveDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const addTab = () => {
     const newTab = {
       id: tabs.length + 1,
-      title: `untitled ${tabs.length + 1}`,
+      title: `Untitled ${tabs.length + 1}`,
     };
     setTabs([...tabs, newTab]);
     setActiveTab(newTab.id);
@@ -31,27 +45,40 @@ const TabSystem = () => {
     }
   };
 
-  const handleSendAction = () => {
-    switch (sendOption) {
-      case "Send":
-        console.log("Sending request with:", selectedMethod, inputText);
-        break;
-      case "Import":
-        console.log("Importing data...");
-        break;
-      case "Show":
-        console.log("Showing request history...");
-        break;
-      case "Clear":
-        console.log("Clearing request history...");
-        break;
+  const handleSendAction = (option: string) => {
+    setSendOption(option);
+    setShowSendDropdown(false);
+    console.log(`Action: ${option} - Method: ${selectedMethod}, Input: ${inputText}`);
+  };
+
+  const handleSaveAction = (option: string) => {
+    setSelectedSaveOption(option);
+    setShowSaveDropdown(false);
+    console.log(`Saved as: ${option}`);
+  };
+
+  // Render active section content
+  const renderActiveSection = () => {
+    switch (selectedSection) {
+      case "Parameters":
+        return <div>Parameters Content</div>;
+      case "Body":
+        return <div>Body Content</div>;
+      case "Header":
+        return <div>Header Content</div>;
+      case "Authorization":
+        return <div>Authorization Content</div>;
+      case "Pre-request Script":
+        return <div>Pre-request Script Content</div>;
+      case "Tests":
+        return <div>Tests Content</div>;
       default:
-        console.log("Invalid action");
+        return <div>Select a section</div>;
     }
   };
 
   return (
-    <div className="ml-20 -mt-72 mr-96">
+    <div className="ml-20 -mt-80 mr-96">
       <div className="bg-red-100 p-4 rounded-lg shadow-md">
         <div className="flex space-x-2">
           {tabs.map((tab) => (
@@ -85,7 +112,7 @@ const TabSystem = () => {
         </div>
       </div>
 
-      <div className="pl-4 pr-4 py-2 mt-1 w-fit ml-0 mr-auto flex space-x-2 items-center">
+      <div className="pl-4 pr-2 py-2 mt-1 w-fit ml-0 mr-auto flex space-x-2 items-center">
         <select
           id="http-method"
           value={selectedMethod}
@@ -107,68 +134,103 @@ const TabSystem = () => {
           placeholder="Enter a URL or paste a cURL command"
           className="p-1 w-96 bg-white shadow-sm border rounded"
         />
-
-        <div className="relative flex items-center">
+        
+        {/* Send Button with Dropdown next to input */}
+        <div className="relative flex items-center ml-2">
           <button
-            onClick={handleSendAction}
+            onClick={() => handleSendAction(sendOption)}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
           >
-            Send
+            {sendOption}
           </button>
           <button
             onClick={() => setShowSendDropdown(!showSendDropdown)}
-            className="ml-1 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+            className="-ml-1 h-10 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
           >
             <FiChevronDown />
           </button>
           {showSendDropdown && (
-            <div className="absolute top-10 bg-white border rounded shadow-md">
-              {["Import", "Show", "Clear"].map((option) => (
-                <div
+            <div className="absolute top-10 left-0 bg-white border rounded shadow-md w-40">
+              {["Import cURL ", "Show code", "Clear all"].map((option) => (
+                <button
                   key={option}
-                  onClick={() => {
-                    setSendOption(option);
-                    setShowSendDropdown(false);
-                  }}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                  onClick={() => handleSendAction(option)}
                 >
                   {option}
-                </div>
+                </button>
               ))}
             </div>
           )}
         </div>
 
-        <div className="relative flex items-center">
+        {/* Save Button with Dropdown next to input */}
+        <div className="relative flex items-center ml-2">
           <button
-            onClick={() => console.log("Save Option:", selectedSaveOption)}
+            onClick={() => handleSaveAction(selectedSaveOption)}
             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
           >
-            Save
+            {selectedSaveOption}
           </button>
           <button
             onClick={() => setShowSaveDropdown(!showSaveDropdown)}
-            className="ml-1 p-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+            className="-ml-1 p-2 h-10 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
           >
-            <FiChevronDown />
+            <FiChevronDown />   
           </button>
           {showSaveDropdown && (
-            <div className="absolute top-10 bg-white border rounded shadow-md">
-              {["Local", "Cloud", "Database"].map((option) => (
-                <div
+            <div className="absolute top-10 left-0 bg-white border rounded shadow-md w-40">
+              {["Untitled", "Save as", "Share Request"].map((option) => (
+                <button
                   key={option}
-                  onClick={() => {
-                    setSelectedSaveOption(option);
-                    setShowSaveDropdown(false);
-                  }}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                  onClick={() => handleSaveAction(option)}
                 >
                   {option}
-                </div>
+                </button>
               ))}
             </div>
           )}
         </div>
+      </div>
+
+      {/* Section Buttons */}
+      <div className="flex justify-between mt-2 border-b pb-2">
+        <div className="flex space-x-4">
+          {[
+            "Parameters",
+            "Body",
+            "Header",
+            "Authorization",
+            "Pre-request Script",
+            "Tests",
+          ].map((buttonName) => (
+            <button
+              key={buttonName}
+              onClick={() => setSelectedSection(buttonName)}
+              className={`px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500 ${
+                selectedSection === buttonName
+                  ? "border-blue-500 text-black-900"
+                  : ""
+              }`}
+            >
+              {buttonName}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => setSelectedSection("Variables")}
+          className={`px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500 ${
+            selectedSection === "Variables" ? "border-blue-500 text-black-900" : ""
+          }`}
+        >
+          Variables
+        </button>
+      </div>
+
+      {/* Render Active Section Content */}
+      <div className="-mt-2 p-1 bg-red-600 rounded shadow-md">
+        {renderActiveSection()}
       </div>
     </div>
   );
