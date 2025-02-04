@@ -51,7 +51,7 @@ const TabSystem = () => {
   };
 
   return (
-    <div className="ml-20 -mt-80 mr-96">
+    <div className="ml-20 -mt-72 mr-96">
       <div className="bg-red-100 p-4 rounded-lg shadow-md">
         <div className="flex space-x-2">
           {tabs.map((tab) => (
@@ -117,10 +117,26 @@ const TabSystem = () => {
           </button>
           <button
             onClick={() => setShowSendDropdown(!showSendDropdown)}
-            className="-ml-1 h-10 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+            className="ml-1 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
           >
             <FiChevronDown />
           </button>
+          {showSendDropdown && (
+            <div className="absolute top-10 bg-white border rounded shadow-md">
+              {["Import", "Show", "Clear"].map((option) => (
+                <div
+                  key={option}
+                  onClick={() => {
+                    setSendOption(option);
+                    setShowSendDropdown(false);
+                  }}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="relative flex items-center">
@@ -132,29 +148,27 @@ const TabSystem = () => {
           </button>
           <button
             onClick={() => setShowSaveDropdown(!showSaveDropdown)}
-            className="-ml-1 p-2 h-10 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+            className="ml-1 p-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
           >
             <FiChevronDown />
           </button>
-        </div>
-      </div>
-
-      <div className="flex justify-between mt-2 border-b pb-2">
-        <div className="flex space-x-4">
-          {["Parameters", "Body", "Header", "Authorization", "Pre-request Script", "Tests"].map(
-            (buttonName) => (
-              <button
-                key={buttonName}
-                className="px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500"
-              >
-                {buttonName}
-              </button>
-            )
+          {showSaveDropdown && (
+            <div className="absolute top-10 bg-white border rounded shadow-md">
+              {["Local", "Cloud", "Database"].map((option) => (
+                <div
+                  key={option}
+                  onClick={() => {
+                    setSelectedSaveOption(option);
+                    setShowSaveDropdown(false);
+                  }}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
           )}
         </div>
-        <button className="px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500">
-          Variables
-        </button>
       </div>
     </div>
   );
