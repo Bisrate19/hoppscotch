@@ -1,4 +1,4 @@
 export default function PreRequestScript() {
-    return <div className="p-10 text-xl">This is the pre_request Page</div>;
+    return <div className="p-1  text-xl">This is the pre PreRequestScript Page</div>
   }
   

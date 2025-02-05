@@ -1,4 +1,4 @@
 export default function Authorization() {
-    return <div className="p-10 text-xl">This is the Authorization Page</div>;
+    return <div className="p-1  text-xl">This is the authorization Page</div>;
   }
   

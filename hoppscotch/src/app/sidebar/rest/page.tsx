@@ -237,7 +237,7 @@ const TabSystem = () => {
       </div>
 
       {/* Render Active Section Content */}
-      <div className="-mt-2 p-4 bg-red-600 rounded shadow-md">
+      <div className="-mt-2 h-8 bg-red-600 rounded shadow-md">
         {renderActiveSection()}
       </div>
     </div>

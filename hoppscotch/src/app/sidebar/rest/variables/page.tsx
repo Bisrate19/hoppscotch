@@ -1,4 +1,4 @@
 export default function Variables() {
-    return <div className="p-10 text-xl">This is the Variables Page</div>;
+    return <div className="p-1  text-xl">This is the variables Page</div>;
   }
   
