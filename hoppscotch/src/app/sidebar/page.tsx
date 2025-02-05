@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Globe, Code, Radio, Settings, ChevronDown, ChevronUp, Shield } from "lucide-react"; // Import icons
-import Link from "next/link"; // Import Link from next/link
+import { Globe, Code, Radio, Settings, ChevronDown, ChevronUp, Shield } from "lucide-react"; 
+import Link from "next/link"; 
 
 const Sidebar = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // State to control sidebar visibility
@@ -32,7 +32,7 @@ const Sidebar = () => {
         )}
       </button>
 
-      {/* New shield button */}
+      {/* shield button */}
       <button
         onClick={toggleShieldText} // Call function to toggle shield text visibility
         className="fixed bottom-0 ml-8 left-1 bg-white- text-black p-1 hover:bg-green-600 transition z-20"
