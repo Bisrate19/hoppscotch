@@ -1,6 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import Parameters from "./parameters/page";
+import Body from "./body/page";
+import Headers from './headers/page';
+import Authorization from "./authorization/page";
+import PreRequestScript from "./preRequestScript/page";
+import Tests from "./tests/page";
+import Variables from "./variables/page";
 
 const TabSystem = () => {
   const [tabs, setTabs] = useState<{ id: number; title: string }[]>([
@@ -61,22 +68,22 @@ const TabSystem = () => {
   const renderActiveSection = () => {
     switch (selectedSection) {
       case "Parameters":
-        return <div>Parameters Content</div>;
+        return <Parameters />;
       case "Body":
-        return <div>Body Content</div>;
-      case "Header":
-        return <div>Header Content</div>;
+        return <Body />;
+      case "Headers":  // Use "Header" instead of "Headers" to match the button label
+        return <Headers />; 
       case "Authorization":
-        return <div>Authorization Content</div>;
-      case "Pre-request Script":
-        return <div>Pre-request Script Content</div>;
+        return <Authorization />;
+      case "Pre-request Script":  // Ensure exact match
+        return <PreRequestScript />;
       case "Tests":
-        return <div>Tests Content</div>;
+        return <Tests />;
       default:
-        return <div>Select a section</div>;
+        return <Variables />; // Defaulting to Variables if no match
     }
   };
-
+  
   return (
     <div className="ml-20 -mt-80 mr-96">
       <div className="bg-red-100 p-4 rounded-lg shadow-md">
@@ -197,26 +204,27 @@ const TabSystem = () => {
       {/* Section Buttons */}
       <div className="flex justify-between mt-2 border-b pb-2">
         <div className="flex space-x-4">
-          {[
-            "Parameters",
-            "Body",
-            "Header",
-            "Authorization",
-            "Pre-request Script",
-            "Tests",
-          ].map((buttonName) => (
-            <button
-              key={buttonName}
-              onClick={() => setSelectedSection(buttonName)}
-              className={`px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500 ${
-                selectedSection === buttonName
-                  ? "border-blue-500 text-black-900"
-                  : ""
-              }`}
-            >
-              {buttonName}
-            </button>
-          ))}
+        {[
+  "Parameters",
+  "Body",
+  "Headers", // Should match "Headers" in renderActiveSection
+  "Authorization",
+  "Pre-request Script", // Should match "Pre-request Script" in renderActiveSection
+  "Tests",
+].map((buttonName) => (
+  <button
+    key={buttonName}
+    onClick={() => setSelectedSection(buttonName)}
+    className={`px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500 ${
+      selectedSection === buttonName
+        ? "border-blue-500 text-black-900"
+        : ""
+    }`}
+  >
+    {buttonName}
+  </button>
+))}
+
         </div>
         <button
           onClick={() => setSelectedSection("Variables")}
@@ -229,7 +237,7 @@ const TabSystem = () => {
       </div>
 
       {/* Render Active Section Content */}
-      <div className="-mt-2 p-1 bg-red-600 rounded shadow-md">
+      <div className="-mt-2 p-4 bg-red-600 rounded shadow-md">
         {renderActiveSection()}
       </div>
     </div>
