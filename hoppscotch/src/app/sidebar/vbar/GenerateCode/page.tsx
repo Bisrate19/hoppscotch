@@ -1,4 +1,4 @@
-export default function Environments
+export default function GenerateCode
 (){
     return<>
     this is enviroments
