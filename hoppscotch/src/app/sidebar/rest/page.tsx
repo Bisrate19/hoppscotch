@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiEye, FiGlobe } from "react-icons/fi";
 import Parameters from "./parameters/page";
 import Body from "./body/page";
 import Headers from './headers/page';
@@ -16,11 +16,12 @@ const TabSystem = () => {
   const [activeTab, setActiveTab] = useState<number>(1);
   const [selectedMethod, setSelectedMethod] = useState<string>("GET");
   const [inputText, setInputText] = useState<string>("");
-  const [selectedSaveOption, setSelectedSaveOption] = useState<string>("Save");  // Updated default value
+  const [selectedSaveOption, setSelectedSaveOption] = useState<string>("Save");
   const [sendOption, setSendOption] = useState<string>("Send");
   const [showSendDropdown, setShowSendDropdown] = useState(false);
   const [showSaveDropdown, setShowSaveDropdown] = useState(false);
   const [selectedSection, setSelectedSection] = useState<string>("Parameters");
+  const [showEnvDropdown, setShowEnvDropdown] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,6 +29,7 @@ const TabSystem = () => {
       if (!target.closest(".dropdown")) {
         setShowSendDropdown(false);
         setShowSaveDropdown(false);
+        setShowEnvDropdown(false);
       }
     };
 
@@ -64,29 +66,33 @@ const TabSystem = () => {
     console.log(`Saved as: ${option}`);
   };
 
-  // Render active section content
+  const handleEnvSelection = (env: string) => {
+    console.log(`Environment selected: ${env}`);
+    setShowEnvDropdown(false);
+  };
+
   const renderActiveSection = () => {
     switch (selectedSection) {
       case "Parameters":
         return <Parameters />;
       case "Body":
         return <Body />;
-      case "Headers":  // Use "Header" instead of "Headers" to match the button label
+      case "Headers":  
         return <Headers />; 
       case "Authorization":
         return <Authorization />;
-      case "Pre-request Script":  // Ensure exact match
+      case "Pre-request Script":  
         return <PreRequestScript />;
       case "Tests":
         return <Tests />;
       default:
-        return <Variables />; // Defaulting to Variables if no match
+        return <Variables />; 
     }
   };
   
   return (
-    <div className="ml-20 -mt-80 mr-96">
-      <div className="bg-red-100 p-4 rounded-lg shadow-md">
+<div className="ml-20 -mt-80 mr-[calc(100%-850px)]">
+      <div className="bg-red-100 p-4 rounded-lg shadow-md flex justify-between items-center ">
         <div className="flex space-x-2">
           {tabs.map((tab) => (
             <div
@@ -117,9 +123,34 @@ const TabSystem = () => {
             +
           </button>
         </div>
+
+        <div className="relative flex items-center ml-2">
+          <button
+            onClick={() => setShowEnvDropdown(!showEnvDropdown)}
+            className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 shadow-md flex items-center"
+          >
+            <FiGlobe className="mr-2" />
+            Select Environment
+            <FiChevronDown className="ml-2" />
+            <FiEye className="ml-2" />
+          </button>
+          {showEnvDropdown && (
+            <div className="absolute top-10 left-0 bg-white border rounded shadow-md w-40">
+              {['Development', 'Staging', 'Production'].map((env) => (
+                <button
+                  key={env}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                  onClick={() => handleEnvSelection(env)}
+                >
+                  {env}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="pl-4 pr-2 py-2 mt-1 w-fit ml-0 mr-auto flex space-x-2 items-center">
+      <div className="pl-4 pr-2 py-2 mt-1 w-full flex space-x-2 items-center">
         <select
           id="http-method"
           value={selectedMethod}
@@ -139,10 +170,9 @@ const TabSystem = () => {
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Enter a URL or paste a cURL command"
-          className="p-1 w-96 bg-white shadow-sm border rounded"
+          className="p-1 w-full bg-white shadow-sm border rounded"
         />
         
-        {/* Send Button with Dropdown next to input */}
         <div className="relative flex items-center ml-2">
           <button
             onClick={() => handleSendAction(sendOption)}
@@ -171,7 +201,6 @@ const TabSystem = () => {
           )}
         </div>
 
-        {/* Save Button with Dropdown next to input */}
         <div className="relative flex items-center ml-2">
           <button
             onClick={() => handleSaveAction(selectedSaveOption)}
@@ -201,30 +230,19 @@ const TabSystem = () => {
         </div>
       </div>
 
-      {/* Section Buttons */}
       <div className="flex justify-between mt-2 border-b pb-2">
         <div className="flex space-x-4">
-        {[
-  "Parameters",
-  "Body",
-  "Headers", // Should match "Headers" in renderActiveSection
-  "Authorization",
-  "Pre-request Script", // Should match "Pre-request Script" in renderActiveSection
-  "Tests",
-].map((buttonName) => (
-  <button
-    key={buttonName}
-    onClick={() => setSelectedSection(buttonName)}
-    className={`px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500 ${
-      selectedSection === buttonName
-        ? "border-blue-500 text-black-900"
-        : ""
-    }`}
-  >
-    {buttonName}
-  </button>
-))}
-
+          {["Parameters", "Body", "Headers", "Authorization", "Pre-request Script", "Tests"].map((buttonName) => (
+            <button
+              key={buttonName}
+              onClick={() => setSelectedSection(buttonName)}
+              className={`px-0 text-xs text-black-300 hover:text-black-900 border-b-2 border-transparent hover:border-blue-500 ${
+                selectedSection === buttonName ? "border-blue-500 text-black-900" : ""
+              }`}
+            >
+              {buttonName}
+            </button>
+          ))}
         </div>
         <button
           onClick={() => setSelectedSection("Variables")}
@@ -236,8 +254,7 @@ const TabSystem = () => {
         </button>
       </div>
 
-      {/* Render Active Section Content */}
-      <div className="-mt-2 h-8 bg-red-600 rounded shadow-md">
+      <div className="-mt-2 h-8 w-full bg-red-600 rounded shadow-md">
         {renderActiveSection()}
       </div>
     </div>

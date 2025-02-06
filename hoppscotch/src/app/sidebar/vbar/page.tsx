@@ -21,7 +21,7 @@ export default function Vbar() {
           <div key={tab.name} className="relative group">
             <button
               className={`w-full h-8 flex items-center justify-center rounded transition 
-                ${activeTab === tab.name.toLowerCase() ? "bg-gray-300" : "hover:bg-gray-200"}`}
+                ${activeTab === tab.name.toLowerCase() ? "bg-gray-100" : "hover:bg-gray-200"}`}
               onClick={() => setActiveTab(tab.name.toLowerCase())}
             >
               {tab.icon}
