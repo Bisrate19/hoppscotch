@@ -14,18 +14,24 @@ export default function Vbar() {
   ];
 
   return (
-    <div className="fixed right-1 h-full top-8 bg-gray-400 shadow-lg flex ">
+    <div className="fixed right-1 h-full top-8 bg-gray-400 shadow-lg flex">
       {/* Vertical Tabs with Fixed Position */}
-      <div className="flex flex-col w-12 border-r border-gray-300 items-center space-y-4 bg-gray-50 p-2">
+      <div className="flex flex-col w-12 border-r border-gray-300 items-center space-y-4 bg-gray-50 p-2 relative">
         {tabs.map((tab) => (
-          <button
-            key={tab.name}
-            className={`w-full h-8 flex items-center justify-center rounded transition 
-              ${activeTab === tab.name.toLowerCase() ? "bg-gray-300" : "hover:bg-gray-200"}`}
-            onClick={() => setActiveTab(tab.name.toLowerCase())}
-          >
-            {tab.icon}
-          </button>
+          <div key={tab.name} className="relative group">
+            <button
+              className={`w-full h-8 flex items-center justify-center rounded transition 
+                ${activeTab === tab.name.toLowerCase() ? "bg-gray-300" : "hover:bg-gray-200"}`}
+              onClick={() => setActiveTab(tab.name.toLowerCase())}
+            >
+              {tab.icon}
+            </button>
+
+            {/* Tooltip */}
+            <span className="absolute left-14 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100">
+              {tab.name}
+            </span>
+          </div>
         ))}
       </div>
 
