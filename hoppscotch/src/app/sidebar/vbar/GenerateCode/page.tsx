@@ -1,6 +1,5 @@
-export default function GenerateCode
-(){
+export default function GenerateCode(){
     return<>
-    this is enviroments
+    this is GenerateCode
     </>
 }

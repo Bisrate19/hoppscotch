@@ -21,7 +21,7 @@ export default function Vbar() {
   ];
 
   return (
-    <div className="fixed right-1 h-full top-8 bg-gray-400 shadow-lg flex">
+    <div className="fixed right-1 h-full top-8 bg-gray-90 shadow-lg flex">
       {/* Vertical Tabs */}
       <div className="flex flex-col w-12 border-r border-gray-300 items-center space-y-4 bg-gray-50 p-2">
         {tabs.map((tab) => (

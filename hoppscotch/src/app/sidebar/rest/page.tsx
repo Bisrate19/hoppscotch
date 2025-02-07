@@ -92,7 +92,7 @@ const TabSystem = () => {
   
   return (
 <div className="ml-20 -mt-80 mr-[calc(100%-850px)]">
-      <div className="bg-red-100 p-4 rounded-lg shadow-md flex justify-between items-center ">
+      <div className="bg-gray-90 p-4  shadow-md flex justify-between items-center ">
         <div className="flex space-x-2">
           {tabs.map((tab) => (
             <div
@@ -127,7 +127,7 @@ const TabSystem = () => {
         <div className="relative flex items-center ml-2">
           <button
             onClick={() => setShowEnvDropdown(!showEnvDropdown)}
-            className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 shadow-md flex items-center"
+            className="px-4 py-2 bg-gray-90 text-black hover:bg-gray-150 shadow-md flex items-center"
           >
             <FiGlobe className="mr-2" />
             Select Environment
@@ -170,19 +170,19 @@ const TabSystem = () => {
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Enter a URL or paste a cURL command"
-          className="p-1 w-full bg-white shadow-sm border rounded"
+          className="p-2.5 w-full bg-white shadow-sm border text-xs"
         />
         
         <div className="relative flex items-center ml-2">
           <button
             onClick={() => handleSendAction(sendOption)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 shadow-md"
           >
             {sendOption}
           </button>
           <button
             onClick={() => setShowSendDropdown(!showSendDropdown)}
-            className="-ml-1 h-10 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md"
+            className="-ml-1 h-10 p-2 bg-blue-600 text-white rounded hover:bg-blue-700 shadow-md"
           >
             <FiChevronDown />
           </button>
@@ -204,13 +204,13 @@ const TabSystem = () => {
         <div className="relative flex items-center ml-2">
           <button
             onClick={() => handleSaveAction(selectedSaveOption)}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+            className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 shadow-md"
           >
             {selectedSaveOption}
           </button>
           <button
             onClick={() => setShowSaveDropdown(!showSaveDropdown)}
-            className="-ml-1 p-2 h-10 bg-green-500 text-white rounded hover:bg-green-600 shadow-md"
+            className="-ml-1 p-2 h-10 bg-gray-200 text-black rounded hover:bg-gray-300 shadow-md"
           >
             <FiChevronDown />   
           </button>
@@ -254,7 +254,7 @@ const TabSystem = () => {
         </button>
       </div>
 
-      <div className="-mt-2 h-8 w-full bg-red-600 rounded shadow-md">
+      <div className="-mt-2 h-auto text-black w-full bg-gray-10 rounded shadow-md">
         {renderActiveSection()}
       </div>
     </div>

@@ -1,5 +1,9 @@
 export default function Collections(){
     return<>
-    this is collections
+    <div className="text-sm">Personal Workspace  Collections
+
+        
+    </div>
+    
     </>
 }
